@@ -19,14 +19,14 @@ export async function getMyShoppingList() {
 export async function addShop(request: ShopRequest) {
   try {
     const response =
-        await AxiosInstance.post<ApiResponse<any>>("add/shop", request);
+        await AxiosInstance.post<ApiResponse<ShopResponse>>("add/shop", request);
     return response.data;
   }catch (error ) {
     console.error(error);
-    // @ts-ignore
+    // @ts-expect-error - Error object may have data property
     if (error?.data ) {
       console.log("sdjadhjadjakjdasd")
-      // @ts-ignore
+      // @ts-expect-error - Error object may have data property
       const message = error.data.message || "Lỗi không xác định";
       throw new Error(message);
     }

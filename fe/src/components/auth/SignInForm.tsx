@@ -1,9 +1,8 @@
 "use client";
-import Checkbox from "@/components/form/input/Checkbox";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
+import { EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import React, { useState } from "react";
 import {useRouter, useSearchParams} from "next/navigation";
@@ -45,12 +44,13 @@ export default function SignInForm() {
       const res = await login(request);
       console.log(res);
       handleSuccessLogin();
-    } catch (err: any) {
-      const status = err?.data?.status || 5000;
+    } catch (err: unknown) {
+      const error = err as { data?: { status?: number }; message?: string };
+      const status = error?.data?.status || 5000;
       if (status === 4004) {
         toast.error("Tài khoản không đúng!");
       } else {
-        toast.error(err?.message || "Lỗi chưa xác định");
+        toast.error(error?.message || "Lỗi chưa xác định");
       }
     }
   };

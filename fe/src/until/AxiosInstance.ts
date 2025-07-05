@@ -35,7 +35,7 @@ const handleError = (error: AxiosError): Promise<never> => {
         // Trả lại lỗi có định dạng rõ ràng
         return Promise.reject({
           status,
-          message: (data as any)?.message || "Đã xảy ra lỗi",
+          message: (data as { message?: string })?.message || "Đã xảy ra lỗi",
           timestamp: new Date().toISOString(),
           data,
         });

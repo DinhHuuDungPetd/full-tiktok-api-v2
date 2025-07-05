@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,10 +17,10 @@ public class TiktokAuthAppClient {
   private final OkHttpClient okHttpClient = new OkHttpClient();
 
   private static final String BASE_URL = "https://auth.tiktok-shops.com";
-  private static final String APP_KEY = "6fikpg3c9k15h";
-  private static final String APP_SECRET = "559f7ecd7df57f73118f3b499c6c9d0592c84963";
+  private static final String APP_KEY = "6gfl9omrkcetf";
+  private static final String APP_SECRET = "06628b0f3df3fc400663de3a752cdc807fdefebf";
 
-  public String refreshToken(String refreshToken) {
+  public String refreshToken(String refreshToken) throws IOException {
     HttpUrl url = HttpUrl.parse(BASE_URL + "/api/v2/token/refresh")
         .newBuilder()
         .addQueryParameter("app_key", APP_KEY)
@@ -27,12 +28,25 @@ public class TiktokAuthAppClient {
         .addQueryParameter("grant_type", "refresh_token")
         .addQueryParameter("refresh_token", refreshToken)
         .build();
+    return getResponse(url);
+  }
 
+  public String getToken(String code) throws IOException {
+    HttpUrl url = HttpUrl.parse(BASE_URL + "/api/v2/token/get")
+        .newBuilder()
+        .addQueryParameter("app_key", APP_KEY)
+        .addQueryParameter("app_secret", APP_SECRET)
+        .addQueryParameter("grant_type", "authorized_code")
+        .addQueryParameter("auth_code", code)
+        .build();
+    return getResponse(url);
+  }
+
+  private String getResponse(HttpUrl url) throws IOException {
     Request request = new Request.Builder()
         .url(url)
         .get()
         .build();
-
     try (Response response = okHttpClient.newCall(request).execute()) {
       if (!response.isSuccessful()) {
         log.error("Failed to refresh token: HTTP {}", response.code());

@@ -36,11 +36,12 @@ public class Shop extends Base {
   @Column(nullable = false)
   String name;
 
-  @Column(nullable = false)
   String note;
 
   @Column(nullable = false)
   String refreshToken;
+
+  String country;
 
   @Column(nullable = false, unique = true)
   String shopId;

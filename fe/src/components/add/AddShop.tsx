@@ -41,8 +41,9 @@ function AddShopContent() {
     try {
       const response = await addShop(body);
       toast.success(response.message);
-    } catch (e: any) {
-      toast.error(e?.message || "Something went wrong");
+    } catch (e: unknown) {
+      const error = e as Error;
+      toast.error(error?.message || "Something went wrong");
     }
   };
   return(

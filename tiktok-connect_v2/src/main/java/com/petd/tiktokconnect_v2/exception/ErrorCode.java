@@ -14,6 +14,8 @@ public enum ErrorCode {
   USER_ALREADY_EXISTS(4003, "User already exists.", HttpStatus.CONFLICT),
   TEAM_NAME_IN_VALID(4003, "team name isn't valid", HttpStatus.CONFLICT),
 
+  CODE_AUTHENTICATION_FAILED(4003, "Code wrong", HttpStatus.CONFLICT),
+
 
   SHOP_NOT_FOUND(4004, "Shop not found", HttpStatus.BAD_REQUEST),
 

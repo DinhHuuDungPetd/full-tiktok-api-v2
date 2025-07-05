@@ -19,5 +19,6 @@ public class ShopRequest {
     String token;
     String authCode;
     String note;
-    Long categoryId;
+    String shopName;
+    String categoryId;
 }

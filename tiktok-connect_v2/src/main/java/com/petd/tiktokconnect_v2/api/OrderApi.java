@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderApi {
+public class OrderApi implements TiktokCallApi {
     TikTokApiClient apiClient;
 
     @Builder.Default
@@ -42,9 +42,8 @@ public class OrderApi {
 
     String accessToken;
 
-    String expiresToken;
 
-
+    @Override
     public String callApi() throws JsonProcessingException {
       String bodyJson = mapper.writeValueAsString(body);
       return apiClient.post("/order/202309/orders/search", accessToken , createParameters(), bodyJson);

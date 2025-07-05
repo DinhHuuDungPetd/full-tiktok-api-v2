@@ -3,9 +3,8 @@ import {Table, TableBody, TableCell, TableHeader, TableRow} from "@/components/u
 import Badge from "@/components/ui/badge/Badge";
 import React, {useEffect} from "react";
 import ActionMutiDropDown from "@/components/shop/ActionMutiDropDown";
-import {ApiResponse, ShopResponse} from "@/api/Type";
+import {ShopResponse} from "@/api/Type";
 import {getMyShoppingList} from "@/api/shopApi";
-
 
 const sampleShops: ShopResponse[] = [
   {
@@ -42,16 +41,12 @@ const sampleShops: ShopResponse[] = [
 
 export default function Shop(){
 
-  const [shops, setShops] = React.useState<ShopResponse[]>([]);
-
   useEffect(() => {
     (async () =>{
       const shopResponse  = await getMyShoppingList();
       console.log(shopResponse);
     })();
   },[])
-
-
 
   return(
       <div className="mt-8">
@@ -130,6 +125,5 @@ export default function Shop(){
 
       </div>
   )
-
 
 }

@@ -11,7 +11,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,12 +20,9 @@ public class TikTokApiClient {
   private final TikTokSignatureUtil signatureUtil;
   private final OkHttpClient okHttpClient = new OkHttpClient();
 
-//  @Value("${app.tiktok.baseUrl}")
   private final static String baseUrl = "https://open-api.tiktokglobalshop.com";
-//  @Value("${app.tiktok.appKey}")
-  private final static String appKey = "6fikpg3c9k15h" ;
-//  @Value("${app.tiktok.secret}")
-  private final static String secret ="559f7ecd7df57f73118f3b499c6c9d0592c84963";
+  private final static String appKey = "6gfl9omrkcetf" ;
+  private final static String secret ="06628b0f3df3fc400663de3a752cdc807fdefebf";
 
   public String get(String path, String accessToken, Map<String, String> queryParams) {
     return execute("GET", path, accessToken, queryParams, null);

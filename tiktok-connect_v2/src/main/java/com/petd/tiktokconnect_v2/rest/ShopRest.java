@@ -2,6 +2,7 @@ package com.petd.tiktokconnect_v2.rest;
 
 
 import com.petd.tiktokconnect_v2.dto.ApiResponse;
+import com.petd.tiktokconnect_v2.dto.request.ShopRequest;
 import com.petd.tiktokconnect_v2.dto.response.ShopResponse;
 import com.petd.tiktokconnect_v2.service.ShopService;
 import java.util.List;
