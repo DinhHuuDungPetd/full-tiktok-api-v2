@@ -1,0 +1,66 @@
+package com.petd.tiktokconnect_v2.api;
+
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.petd.tiktokconnect_v2.api.body.OrderRequestBody;
+import com.petd.tiktokconnect_v2.helper.TikTokApiClient;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.mapstruct.Named;
+import org.springframework.stereotype.Component;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OrderApi {
+    TikTokApiClient apiClient;
+
+    @Builder.Default
+    ObjectMapper mapper = new ObjectMapper();
+
+    OrderRequestBody body;
+
+    @Builder.Default
+    String sortField  = "create_time";
+
+    String shopCipher;
+
+    @Builder.Default
+    int pageSize = 20;
+
+    @Builder.Default
+    String sortOrder = "ASC";
+
+
+    String accessToken;
+
+    String expiresToken;
+
+
+    public String callApi() throws JsonProcessingException {
+      String bodyJson = mapper.writeValueAsString(body);
+      return apiClient.post("/order/202309/orders/search", accessToken , createParameters(), bodyJson);
+    }
+
+
+    public Map<String, String> createParameters () {
+
+      Map<String, String> params = new HashMap<String, String>();
+      params.put("shop_cipher", shopCipher);
+      params.put("page_size", String.valueOf(pageSize));
+      params.put("sort_order", sortOrder);
+      params.put("sort_field", sortField);
+      return params;
+    }
+
+
+
+}
