@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - ./public:/app/public
+    restart: unless-stopped
+    container_name: tailadmin-frontend
+    networks:
+      - tailadmin-network
+
+  # Development service (uncomment to use)
+  # frontend-dev:
+  #   build:
+  #     context: .
+  #     target: development
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   restart: unless-stopped
+  #   container_name: tailadmin-frontend-dev
+  #   networks:
+  #     - tailadmin-network
+
+networks:
+  tailadmin-network:
+    driver: bridge 

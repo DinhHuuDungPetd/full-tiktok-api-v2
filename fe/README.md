@@ -64,6 +64,182 @@ git clone https://github.com/TailAdmin/free-nextjs-admin-dashboard.git
     yarn dev
     ```
 
+## Docker Build and Run
+
+### Prerequisites for Docker
+- Docker installed on your system
+- Docker Compose (usually comes with Docker Desktop)
+
+### Building and Running with Docker
+
+1. **Build the Docker image:**
+   ```bash
+   docker build -t tailadmin-nextjs .
+   ```
+
+2. **Run the container:**
+   ```bash
+   docker run -p 3000:3000 tailadmin-nextjs
+   ```
+
+3. **Or use Docker Compose (recommended):**
+   
+   Create a `docker-compose.yml` file in the root directory:
+   ```yaml
+   version: '3.8'
+   services:
+     frontend:
+       build: .
+       ports:
+         - "3000:3000"
+       environment:
+         - NODE_ENV=production
+       volumes:
+         - ./public:/app/public
+       restart: unless-stopped
+   ```
+
+   Then run:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Development mode with Docker:**
+   ```bash
+   # Build for development
+   docker build -t tailadmin-nextjs:dev --target development .
+   
+   # Run in development mode
+   docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules tailadmin-nextjs:dev
+   ```
+
+### Dockerfile
+
+Create a `Dockerfile` in the root directory:
+
+```dockerfile
+# Use the official Node.js runtime as the base image
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN npm run build
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]
+```
+
+### Multi-stage Dockerfile for Development
+
+For development with hot reload:
+
+```dockerfile
+# Development stage
+FROM node:20-alpine AS development
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+
+# Production stage
+FROM node:20-alpine AS production
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+### Docker Commands Reference
+
+```bash
+# Build image
+docker build -t tailadmin-nextjs .
+
+# Run container
+docker run -p 3000:3000 tailadmin-nextjs
+
+# Run in detached mode
+docker run -d -p 3000:3000 tailadmin-nextjs
+
+# View running containers
+docker ps
+
+# Stop container
+docker stop <container_id>
+
+# Remove container
+docker rm <container_id>
+
+# Remove image
+docker rmi tailadmin-nextjs
+
+# View logs
+docker logs <container_id>
+
+# Execute commands in running container
+docker exec -it <container_id> /bin/sh
+```
+
+### Environment Variables
+
+You can pass environment variables to the Docker container:
+
+```bash
+docker run -p 3000:3000 -e NODE_ENV=production -e NEXT_PUBLIC_API_URL=https://api.example.com tailadmin-nextjs
+```
+
+The application will be available at `http://localhost:3000` after running the Docker commands.
+
 ## Components
 
 TailAdmin is a pre-designed starting point for building a web-based dashboard using Next.js and Tailwind CSS. The template includes:

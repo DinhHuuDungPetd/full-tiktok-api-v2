@@ -3,10 +3,10 @@ import Label from "@/components/form/Label";
 import Input from "@/components/form/input/InputField";
 import Button from "@/components/ui/button/Button";
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function FormAddShop ({}){
+function AddShopContent() {
   const searchParams = useSearchParams();
-
   const authCode = searchParams.get('code');
 
   return(
@@ -24,4 +24,12 @@ export default function FormAddShop ({}){
         </div>
       </div>
   )
+}
+
+export default function FormAddShop() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddShopContent />
+    </Suspense>
+  );
 }
