@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "@/context/SidebarContext";
 import {
   BoxCubeIcon,
   CalenderIcon,
@@ -18,6 +18,7 @@ import {
   UserCircleIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
+import {Store} from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -30,12 +31,12 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/"
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
+    icon: <Store size={24} />,
+    name: "Shop",
+    path: "/shop",
   },
   {
     icon: <UserCircleIcon />,

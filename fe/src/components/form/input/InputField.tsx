@@ -52,6 +52,7 @@ const Input: FC<InputProps> = ({
       <input
         type={type}
         id={id}
+        autoComplete="new-password"
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
