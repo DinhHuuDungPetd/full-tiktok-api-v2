@@ -2,7 +2,7 @@ import React from "react";
 
 type BadgeVariant = "light" | "solid";
 type BadgeSize = "sm" | "md";
-type BadgeColor =
+export type BadgeColor =
   | "primary"
   | "success"
   | "error"
@@ -20,7 +20,7 @@ interface BadgeProps {
   children: React.ReactNode; // Badge content
 }
 
-const Badge: React.FC<BadgeProps> = ({
+const  Badge: React.FC<BadgeProps> = ({
   variant = "light",
   color = "primary",
   size = "md",

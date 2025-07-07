@@ -1,10 +1,10 @@
 "use client"
 import {Table, TableBody, TableCell, TableHeader, TableRow} from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
-import React, {useEffect} from "react";
-import ActionMutiDropDown from "@/components/shop/ActionMutiDropDown";
+import React, {useEffect, useState} from "react";
 import {ShopResponse} from "@/api/Type";
 import {getMyShoppingList} from "@/api/shopApi";
+import ActionMutiShopDropDown from "@/components/shop/ActionMutiShopDropDown";
 
 const sampleShops: ShopResponse[] = [
   {
@@ -41,10 +41,12 @@ const sampleShops: ShopResponse[] = [
 
 export default function Shop(){
 
+  const [shops, setShops] = useState<ShopResponse[]>([]);
+
   useEffect(() => {
     (async () =>{
       const shopResponse  = await getMyShoppingList();
-      console.log(shopResponse);
+      setShops(shopResponse);
     })();
   },[])
 
@@ -86,7 +88,7 @@ export default function Shop(){
 
                 {/* Table Body */}
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                  {sampleShops.map((shop, index) => (
+                  {shops.map((shop, index) => (
                       <TableRow key ={shop.shopId}>
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-center gap-3">
@@ -113,7 +115,7 @@ export default function Shop(){
                           </Badge>
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                          <ActionMutiDropDown/>
+                          <ActionMutiShopDropDown shopId={shop.shopId} />
                         </TableCell>
                       </TableRow>
                   ))}

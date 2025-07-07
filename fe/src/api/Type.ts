@@ -35,4 +35,47 @@ export type ShopRequest = {
   categoryId: string;
 }
 
+export interface Order {
+  id: string;
+  tracking_number: string;
+  payment: {
+    currency: string;
+    total_amount: string;
+  };
+  recipient_address: {
+    name: string;
+    phone_number: string;
+    address_detail: string;
+    district_info: {
+      address_level_name: string;
+      address_name: string;
+      address_level: string;
+    }[];
+    postal_code: string;
+  };
+  status: string;
+  shipping_type: string;
+  create_time: number;
+  line_items: LineItem[];
+}
+
+export interface LineItem {
+  product_name: string;
+  sku_image: string;
+  sku_id: string;
+  sale_price: string;
+  currency: string;
+}
+
+export interface OrderApiResponse {
+  code: number;
+  message: string;
+  request_id: string;
+  data: {
+    next_page_token: string;
+    total_count: number;
+    orders: Order[];
+  };
+}
+
 export type { ApiResponse , UserResponse , LoginRequest};
