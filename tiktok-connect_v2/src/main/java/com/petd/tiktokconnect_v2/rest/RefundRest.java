@@ -1,7 +1,7 @@
 package com.petd.tiktokconnect_v2.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.petd.tiktokconnect_v2.service.OrderService;
+import com.petd.tiktokconnect_v2.service.RefundService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/refund")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class OrderRest {
+public class RefundRest {
 
-  OrderService orderService;
+  RefundService refundService;
 
   @GetMapping("/{shopId}/shop")
   public Object getOrderByShop(@PathVariable(value = "shopId") String shopId,
       @RequestParam(name = "next_page", defaultValue = "") String nextPage
-      )
+  )
       throws JsonProcessingException {
-    return orderService.getOrders(shopId, nextPage);
+    return refundService.getRefund(shopId, nextPage);
   }
 }

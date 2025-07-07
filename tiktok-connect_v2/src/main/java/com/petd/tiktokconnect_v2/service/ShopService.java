@@ -75,7 +75,7 @@ public class ShopService {
       shop.setOwner(profile);
     }
     shop.setShopId(shopInfo.get("shopId"));
-    shop.setName(shopRequest.getShopName());
+    shop.setShopName(shopRequest.getShopName());
     shop.setNote(shopRequest.getNote());
     shop.setCipher(shopInfo.get("cipher"));
     shop.setCountry(shopInfo.get("region"));

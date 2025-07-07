@@ -34,7 +34,7 @@ public class Shop extends Base {
   String cipher;
 
   @Column(nullable = false)
-  String name;
+  String shopName;
 
   String note;
 

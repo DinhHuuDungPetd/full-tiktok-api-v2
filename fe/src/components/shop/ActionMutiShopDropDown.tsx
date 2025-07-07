@@ -7,7 +7,11 @@ import {
   BanknoteArrowDown, CircleDollarSign
 } from "lucide-react";
 
-export default function ActionMutiDropDown() {
+type props = {
+  shopId: string;
+}
+
+export default function ActionMutiShopDropDown({ shopId }: props) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -56,7 +60,7 @@ export default function ActionMutiDropDown() {
               <DropdownItem
                   onItemClick={closeDropdown}
                   tag="a"
-                  href="/profile"
+                  href={`/shop/order/${shopId}`}
                   className="flex items-center gap-3 font-medium text-gray-700 rounded-lg group text-theme-xs hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
               >
                 <ClipboardList size ={18} />

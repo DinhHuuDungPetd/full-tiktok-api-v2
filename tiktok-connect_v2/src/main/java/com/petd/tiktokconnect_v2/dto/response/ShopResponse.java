@@ -18,4 +18,6 @@ import lombok.experimental.FieldDefaults;
 public class ShopResponse {
   String note;
   String shopId;
+  String shopName;
+  String country;
 }

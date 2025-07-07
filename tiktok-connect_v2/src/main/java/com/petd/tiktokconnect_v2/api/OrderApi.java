@@ -32,12 +32,14 @@ public class OrderApi implements TiktokCallApi {
     String sortField  = "create_time";
 
     String shopCipher;
+    @Builder.Default
+    String pageToken ="";
 
     @Builder.Default
-    int pageSize = 20;
+    int pageSize = 10;
 
     @Builder.Default
-    String sortOrder = "ASC";
+    String sortOrder = "DESC";
 
 
     String accessToken;
@@ -57,6 +59,7 @@ public class OrderApi implements TiktokCallApi {
       params.put("page_size", String.valueOf(pageSize));
       params.put("sort_order", sortOrder);
       params.put("sort_field", sortField);
+      params.put("page_token", pageToken);
       return params;
     }
 
